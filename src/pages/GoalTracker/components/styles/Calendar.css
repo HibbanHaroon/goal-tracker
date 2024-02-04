@@ -1,0 +1,16 @@
+.date-calendar{
+    background-color: black;
+    color: white;   
+}
+
+.MuiButtonBase-root{
+    color: white;   
+}
+
+.MuiPickersCalendarHeader-label, .MuiButtonBase-root{
+    font-family: 'Montserrat';
+}
+
+.Mui-selected{
+    background-color: lightgrey;
+}

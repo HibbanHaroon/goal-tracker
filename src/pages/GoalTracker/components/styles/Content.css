@@ -3,3 +3,16 @@
     border-top: 0.9em solid black;
     padding: 1.5em;
 }
+
+.top-container{
+    display: flex;
+    justify-content: center;
+}
+
+.calendar-container{
+    margin: 0 15px;
+    padding: 0;
+    border: 2px solid black;
+    font-family: "Montserrat", sans-serif;
+    background-color: black;
+}

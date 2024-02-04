@@ -2,7 +2,7 @@
     width: 450px;
     margin: auto;
     background-color: white;
-    border: 1px solid black;
+    border: 2px solid black;
     /* border-radius: 16px; */
   }
 
@@ -26,7 +26,7 @@
   li {
     display: flex;
     align-items: center;
-    padding: 14px;
+    padding: 7px 20px 7px 14px;
     border-top: 1px solid #ccc;
     border-bottom: 1px transparent;
     /* border-bottom-left-radius: 50px;

@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import DragIcon from "../../../assets/icons/DragIcon";
 import DeleteIcon from "../../../assets/icons/DeleteIcon";
-import { Checkbox } from "@chakra-ui/react";
+import Checkbox from "@mui/material/Checkbox";
+import { grey } from "@mui/material/colors";
 import "./styles/GoalList.css";
 
 const GoalList = () => {
@@ -115,12 +116,12 @@ const GoalList = () => {
                         <DragIcon width={18} height={18} fill={"white"} />
                       </span>
                       <Checkbox
-                        colorScheme="gray.50"
-                        bg="gray.50"
-                        size="md"
-                        spacing="1em"
-                        iconColor="gray.900"
-                        iconSize="1rem"
+                        sx={{
+                          color: grey[900],
+                          "&.Mui-checked": {
+                            color: grey[900],
+                          },
+                        }}
                         checked={goal.crossed}
                         onChange={() => toggleCrossed(goal.id)}
                       ></Checkbox>
