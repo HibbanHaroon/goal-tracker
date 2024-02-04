@@ -1,0 +1,47 @@
+.main-header{
+    display: grid;
+    align-items: center;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr auto;
+    width: 100%;
+}
+
+.main-header h1{
+    font-size: 2rem;
+    font-weight: 700;
+    justify-self: center;
+}
+
+.main-header button{
+    position: absolute;
+    padding: 0.8em 1em;
+    /* margin-right: 1em; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    justify-self: end;
+
+    border: 2px solid black;
+    border-radius: 0px;
+
+    cursor: pointer;
+    background-color: white;
+    color: black;
+
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.main-header button:hover{
+    background-color: black;
+    color: white;
+
+    svg{
+        fill: white;
+    }
+}
+
+.main-header svg{
+    fill: black;
+    margin-right: 10px;
+}

@@ -1,0 +1,6 @@
+.goal-tracker{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding: 1.5em;
+}

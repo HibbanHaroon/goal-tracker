@@ -1,0 +1,70 @@
+.goal-list {
+    width: 450px;
+    margin: auto;
+    background-color: white;
+    border: 1px solid black;
+    /* border-radius: 16px; */
+  }
+
+  .editable-div {
+    padding: 14px;
+    outline: none;
+  }
+  
+  .editable-div:empty:before {
+    content: attr(placeholder);
+    color: #999;
+    cursor: text;
+  }
+  
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  
+  li {
+    display: flex;
+    align-items: center;
+    padding: 14px;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px transparent;
+    /* border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px; */
+    background-color: #fff;
+    justify-content: space-between;
+  }
+
+  .list-item {
+    width: 80%;
+    outline: none;
+    align-items: center;
+    /* margin-left: 10px;
+    margin-right: 5px; */
+  }
+
+  .drag-icon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor:grab;
+  }
+  
+  .delete-icon {    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    /* margin-left: 7px;
+    margin-right: 5px; */
+
+    background-color: transparent;
+    border: none;
+    padding: 0;
+  }
+  
+  .crossed {
+    text-decoration: line-through;
+  }
+  
