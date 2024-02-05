@@ -3,12 +3,16 @@ import GoalList from "./GoalList";
 import Calendar from "./Calendar";
 import { StyledEngineProvider } from "@mui/material/styles";
 import "./styles/Content.css";
+import FlipClock from "./FlipClock";
 
 function Content() {
   return (
     <div className="main-content">
       {/* Top Container is for the all the interactice content, such as goals, spotify player, calendar etc. */}
       <div className="top-container">
+        <div className="side-container">
+          <FlipClock />
+        </div>
         <div className="to-do-list">
           <GoalList />
         </div>

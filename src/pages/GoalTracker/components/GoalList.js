@@ -113,7 +113,7 @@ const GoalList = () => {
                               : "hidden",
                         }}
                       >
-                        <DragIcon width={18} height={18} fill={"white"} />
+                        <DragIcon width={24} height={24} fill={"white"} />
                       </span>
                       <Checkbox
                         sx={{

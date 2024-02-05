@@ -6,7 +6,7 @@
 
 .top-container{
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
 }
 
 .calendar-container{
@@ -15,4 +15,11 @@
     border: 2px solid black;
     font-family: "Montserrat", sans-serif;
     background-color: black;
+}
+
+.side-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }

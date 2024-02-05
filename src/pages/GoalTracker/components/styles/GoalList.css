@@ -43,7 +43,7 @@
     margin-right: 5px; */
   }
 
-  .drag-icon{
+  li span{
     display: flex;
     align-items: center;
     justify-content: center;
