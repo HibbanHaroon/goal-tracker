@@ -1,8 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import GoogleIcon from "../../../assets/icons/GoogleIcon";
+import { UserAuth } from "../../../context/AuthContext";
+// import { useNavigate } from "react-router-dom";
 import "./styles/Content.css";
 
 function Content() {
+  const { googleSignIn, user } = UserAuth();
+  // const navigate = useNavigate();
+
+  const handleGoogleSignIn = async () => {
+    try {
+      await googleSignIn();
+      console.log(user);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // useEffect(() => {
+  //   if (user != null) {
+  //     navigate("/tracker");
+  //   }
+  // }, [user]);
+
   return (
     <div className="content">
       <div className="content-left">
@@ -31,7 +51,7 @@ function Content() {
         <div className="register">
           <h1>Track them right away.</h1>
           <div className="button-container" id="button-container">
-            <button id="button">
+            <button id="button" onClick={handleGoogleSignIn}>
               <GoogleIcon width={18} height={18} />
               Login with Google
             </button>
