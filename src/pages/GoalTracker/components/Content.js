@@ -4,6 +4,7 @@ import Calendar from "./Calendar";
 import { StyledEngineProvider } from "@mui/material/styles";
 import "./styles/Content.css";
 import FlipClock from "./FlipClock";
+import Spotify from "./Spotify";
 
 function Content() {
   return (
@@ -12,6 +13,7 @@ function Content() {
       <div className="top-container">
         <div className="side-container">
           <FlipClock />
+          <Spotify />
         </div>
         <div className="to-do-list">
           <GoalList />

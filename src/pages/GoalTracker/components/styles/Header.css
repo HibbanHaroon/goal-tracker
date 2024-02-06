@@ -15,7 +15,7 @@
 .main-header button{
     position: absolute;
     padding: 0.8em 1em;
-    /* margin-right: 1em; */
+    margin-right: 1em;
     display: flex;
     align-items: center;
     justify-content: space-between;

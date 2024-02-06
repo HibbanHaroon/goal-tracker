@@ -14,3 +14,7 @@
 .Mui-selected{
     background-color: lightgrey;
 }
+
+.MuiStack-root{
+    padding: 0;
+}
