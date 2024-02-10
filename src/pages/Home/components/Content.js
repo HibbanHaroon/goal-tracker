@@ -1,27 +1,18 @@
-import React, { useEffect } from "react";
+import React from "react";
 import GoogleIcon from "../../../assets/icons/GoogleIcon";
 import { UserAuth } from "../../../context/AuthContext";
-// import { useNavigate } from "react-router-dom";
 import "./styles/Content.css";
 
 function Content() {
-  const { googleSignIn, user } = UserAuth();
-  // const navigate = useNavigate();
+  const { googleSignIn } = UserAuth();
 
   const handleGoogleSignIn = async () => {
     try {
       await googleSignIn();
-      console.log(user);
     } catch (error) {
       console.log(error);
     }
   };
-
-  // useEffect(() => {
-  //   if (user != null) {
-  //     navigate("/tracker");
-  //   }
-  // }, [user]);
 
   return (
     <div className="content">
