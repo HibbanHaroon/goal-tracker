@@ -134,6 +134,12 @@ const GoalList = () => {
                       <button
                         className="delete-icon"
                         onClick={() => deleteGoal(goal.id)}
+                        style={{
+                          visibility:
+                            snapshot.isDragging || hoveredIndex === index
+                              ? "visible"
+                              : "hidden",
+                        }}
                       >
                         <DeleteIcon width={18} height={18} fill={"white"} />
                       </button>
