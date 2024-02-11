@@ -1,70 +1,70 @@
-# Getting Started with Create React App
+# Goal Tracker
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Goal Tracker is a web application which helps you track your day to day goals and empowers you to become a better individual.
 
-## Available Scripts
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+- Firebase Authentication
+- Spotify Embed, Flip Clock, Calender, Quote of the Day
+- A goal checklist to track your daily goals.
+- A graph to show your progress of the whole year.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Lessons Learned
 
-### `npm test`
+This project took much longer than I expected, but I learnt a lot from this project, a few things are listed below:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Encorporating Spotify Embed was really challenging but I made it working eventually. I also made a dedicated playlist for this project to match it's dark black theme.
+- React-Beautiful-DND helped a lot in making the drag and drop functionality to reorder the goals in the list.
+- I used Calendar and the Checkbox component from the Material UI React Components but it was so difficult understanding the documentation in order to style the components, but in the end I understood it and made it working. 
+- Home Screen was so challenging to design and also implement. I had to think of the structure of the elements so that they can be both visually pleasing on the web as well as mobile devices.
+- I had to implement Firebase Authentication so that all my friends can sign in using Google and use this application daily. 
 
-### `npm run build`
+## Issues
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Although the major functionalities are implemented, there are still a lot of things to implement to make this application better:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Make the website responsive for mobile devices.
+- Resolve the issue that the user stays on the Home Page for a few seconds before navigating to the Goal Tracker page.
+- Add Footer to the Home Page
+- Add a cursor and make it move from one circle to another like a portal on the Home Page.
+- Make the goals list scrollable if the list increases to a certain height
+- Connect Goal Tracker to a Firestore Database and add the daily goals.
+- Add a graph to show the progress of the daily goals for the whole year.
+## Run Locally
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Clone the project
 
-### `npm run eject`
+```bash
+  git clone https://github.com/HibbanHaroon/goal-tracker.git
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Go to the project directory
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+  cd goal-tracker
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Install dependencies
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```bash
+  npm install
+```
 
-## Learn More
+Start the server
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+  npm start
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
+## Acknowledgements
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+ - [Spotify Embed](https://developer.spotify.com/)
+ - [Flip Clock](https://codepen.io/liborgabrhel/pen/JyJzjb)
+ - [Material UI React Components](https://mui.com/material-ui/)
+ - [Quotes API](https://gist.githubusercontent.com/awran5/355643af99164a61ae0f95c84206d151/raw/c62636e8eef7e73540fa04b67f753ca9b95ee21e/quotes-api.js)
+- [React Beautiful DND](https://github.com/atlassian/react-beautiful-dnd)
+- [Firebase Authentication](https://www.youtube.com/watch?v=cZAnibwI9u8)
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
