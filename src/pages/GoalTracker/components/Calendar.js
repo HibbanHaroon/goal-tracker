@@ -16,7 +16,7 @@ const theme = createTheme({
 });
 
 export default function DateCalendarValue() {
-  const [value, setValue] = React.useState(dayjs("2022-04-17"));
+  const [value, setValue] = React.useState(dayjs(Date.now()));
 
   return (
     <ThemeProvider theme={theme}>
