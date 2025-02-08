@@ -1,26 +1,18 @@
-import React, { useEffect } from "react";
-import LogoutIcon from "../../../assets/icons/LogoutIcon";
-import { UserAuth } from "../../../context/AuthContext";
+import React from "react";
 import { useNavigate } from "react-router-dom";
+import LogoutIcon from "../../../assets/icons/LogoutIcon";
 import "./styles/Header.css";
 
 function Header() {
-  const { user, logOut } = UserAuth();
   const navigate = useNavigate();
 
   const handleSignOut = async () => {
     try {
-      await logOut();
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    if (user == null) {
-      navigate("/");
-    }
-  }, [user]);
 
   return (
     <div className="main-header">

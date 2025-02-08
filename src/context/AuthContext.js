@@ -12,9 +12,10 @@ const AuthContext = createContext();
 export const AuthContextProvider = ({ children, navigate }) => {
   const [user, setUser] = useState({});
 
-  const googleSignIn = () => {
+  const googleSignIn = async () => {
     const provider = new GoogleAuthProvider();
-    signInWithRedirect(auth, provider);
+    const result = await signInWithRedirect(auth, provider);
+    console.log(result);
   };
 
   const logOut = () => {
@@ -24,6 +25,7 @@ export const AuthContextProvider = ({ children, navigate }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      console.log(currentUser);
       if (currentUser) {
         navigate("/tracker");
       }

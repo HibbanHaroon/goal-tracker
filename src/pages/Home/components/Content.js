@@ -1,14 +1,14 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import GoogleIcon from "../../../assets/icons/GoogleIcon";
-import { UserAuth } from "../../../context/AuthContext";
 import "./styles/Content.css";
 
 function Content() {
-  const { googleSignIn } = UserAuth();
+  const navigate = useNavigate();
 
   const handleGoogleSignIn = async () => {
     try {
-      await googleSignIn();
+      navigate("/tracker");
     } catch (error) {
       console.log(error);
     }
