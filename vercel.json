@@ -1,0 +1,9 @@
+{
+  "rewrites": [
+    {
+      "source": "/__/auth/:path*",
+      "destination": "https://goal-tracker-0001.firebaseapp.com/__/auth/:path*"
+    }
+  ]
+}
+
