@@ -1,70 +1,78 @@
 .goal-list {
-    width: 450px;
-    margin: auto;
-    background-color: white;
-    border: 2px solid black;
-    /* border-radius: 16px; */
-  }
+  width: 450px;
+  margin: auto;
+  background-color: white;
+  border: 2px solid black;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
+  /* border-radius: 16px; */
+}
 
-  .editable-div {
-    padding: 14px;
-    outline: none;
-  }
-  
-  .editable-div:empty:before {
-    content: attr(placeholder);
-    color: #999;
-    cursor: text;
-  }
-  
-  ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-  
-  li {
-    display: flex;
-    align-items: center;
-    padding: 7px 20px 7px 14px;
-    border-top: 1px solid #ccc;
-    border-bottom: 1px transparent;
-    /* border-bottom-left-radius: 50px;
+.editable-div {
+  padding: 14px;
+  outline: none;
+  flex-shrink: 0;
+}
+
+.editable-div:empty:before {
+  content: attr(placeholder);
+  color: #999;
+  cursor: text;
+}
+
+.goal-list ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  padding: 7px 20px 7px 14px;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px transparent;
+  /* border-bottom-left-radius: 50px;
     border-bottom-right-radius: 50px; */
-    background-color: #fff;
-    justify-content: space-between;
-  }
+  background-color: #fff;
+  justify-content: space-between;
+}
 
-  .list-item {
-    width: 80%;
-    outline: none;
-    align-items: center;
-    /* margin-left: 10px;
+.list-item {
+  width: 80%;
+  outline: none;
+  align-items: center;
+  /* margin-left: 10px;
     margin-right: 5px; */
-  }
+}
 
-  li span{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor:grab;
-  }
-  
-  .delete-icon {    
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
+li span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+}
 
-    /* margin-left: 7px;
+.delete-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  /* margin-left: 7px;
     margin-right: 5px; */
 
-    background-color: transparent;
-    border: none;
-    padding: 0;
-  }
-  
-  .crossed {
-    text-decoration: line-through;
-  }
-  
+  background-color: transparent;
+  border: none;
+  padding: 0;
+}
+
+.crossed {
+  text-decoration: line-through;
+}

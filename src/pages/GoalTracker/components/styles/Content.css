@@ -1,29 +1,36 @@
-.main-content{
-    margin: 0 7em;
-    border-top: 0.9em solid black;
-    padding: 2em 1.5em;
+.main-content {
+  margin: 0 7em;
+  border-top: 0.9em solid black;
+  padding: 2em 1.5em;
 }
 
-.top-container{
-    display: flex;
-    justify-content: space-around;
+.top-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
 }
 
-.left-container, .right-container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /* justify-content: center; */
+.left-container,
+.right-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
 }
 
-.right-container{
-    /* margin: 0 15px; */
-    padding: 0;
+.right-container {
+  padding: 0;
 }
 
-.left-container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.left-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.to-do-list {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(133px + 360px); /* FlipClock height + Spotify minHeight */
 }
