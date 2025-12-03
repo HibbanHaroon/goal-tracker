@@ -70,14 +70,22 @@ const GoalList = () => {
         contentEditable
         placeholder="Add a goal..."
         className="editable-div"
-        onInput={(e) => setNewGoal(e.target.textContent)}
-        onKeyDown={(e) =>
-          e.key === "Enter" &&
-          (e.preventDefault(),
-          addGoal(),
-          setNewGoal(""),
-          (e.target.textContent = ""))
-        }
+        onInput={(e) => {
+          const text = e.target.textContent;
+          setNewGoal(text);
+          // Clear innerHTML if text is empty to show placeholder
+          if (!text.trim()) {
+            e.target.innerHTML = "";
+          }
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            addGoal();
+            setNewGoal("");
+            e.target.innerHTML = "";
+          }
+        }}
       ></div>
       <DragDropContext onDragEnd={handleDragEnd}>
         <Droppable droppableId="goal-list" type="group" direction="vertical">
