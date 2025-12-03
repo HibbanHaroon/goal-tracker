@@ -1,14 +1,14 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import LogoutIcon from "../../../assets/icons/LogoutIcon";
+import { UserAuth } from "../../../context/AuthContext";
 import "./styles/Header.css";
 
 function Header() {
-  const navigate = useNavigate();
+  const { logOut } = UserAuth();
 
   const handleSignOut = async () => {
     try {
-      navigate("/");
+      await logOut();
     } catch (error) {
       console.log(error);
     }

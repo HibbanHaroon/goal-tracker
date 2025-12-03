@@ -5,11 +5,11 @@ import { ROUTES } from "../constants";
 import Loader from "../pages/GoalTracker/components/Loader";
 
 /**
- * Route guard for authenticated routes
- * Redirects to home if user is not logged in
+ * Route guard for public-only routes (login page, etc.)
+ * Redirects to tracker if user is already logged in
  * Shows loader while auth state is being determined
  */
-const Protected = ({ children }) => {
+const PublicOnly = ({ children }) => {
   const { user, loading } = UserAuth();
 
   // Show loader while checking auth state
@@ -17,12 +17,12 @@ const Protected = ({ children }) => {
     return <Loader />;
   }
 
-  // Redirect to home if not authenticated
-  if (!user) {
-    return <Navigate to={ROUTES.HOME} replace />;
+  // Redirect to tracker if already authenticated
+  if (user) {
+    return <Navigate to={ROUTES.TRACKER} replace />;
   }
 
   return children;
 };
 
-export default Protected;
+export default PublicOnly;
