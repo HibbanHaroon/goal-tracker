@@ -4,43 +4,28 @@ import DragIcon from "../../../assets/icons/DragIcon";
 import DeleteIcon from "../../../assets/icons/DeleteIcon";
 import Checkbox from "@mui/material/Checkbox";
 import { grey } from "@mui/material/colors";
+import useGoals from "../../../hooks/useGoals";
 import "./styles/GoalList.css";
 
 const GoalList = () => {
-  const [goals, setGoals] = useState([]);
+  const {
+    goals,
+    loading,
+    addGoal,
+    deleteGoal,
+    toggleCompleted,
+    updateGoalText,
+    reorderGoals,
+  } = useGoals();
+
   const [newGoal, setNewGoal] = useState("");
   const [draggedIndex, setDraggedIndex] = useState(null);
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
-  const addGoal = () => {
+  const handleAddGoal = () => {
     if (newGoal.trim() !== "") {
-      setGoals([
-        { id: Date.now().toString(), content: newGoal, crossed: false },
-        ...goals,
-      ]);
+      addGoal(newGoal);
       setNewGoal("");
-    }
-  };
-
-  const deleteGoal = (id) => {
-    setGoals(goals.filter((goal) => goal.id !== id));
-  };
-
-  const toggleCrossed = (id) => {
-    setGoals(
-      goals.map((goal) =>
-        goal.id === id ? { ...goal, crossed: !goal.crossed } : goal
-      )
-    );
-  };
-
-  const moveCheckedToEnd = (a, b) => {
-    if (a.crossed && !b.crossed) {
-      return 1;
-    } else if (!a.crossed && b.crossed) {
-      return -1;
-    } else {
-      return 0;
     }
   };
 
@@ -49,20 +34,30 @@ const GoalList = () => {
 
     if (!result.destination) return;
 
-    const updatedGoals = Array.from(goals);
-    const [movedGoal] = updatedGoals.splice(result.source.index, 1);
-    updatedGoals.splice(result.destination.index, 0, movedGoal);
+    reorderGoals(result.source.index, result.destination.index);
+  };
 
-    setGoals(updatedGoals);
+  const handleTextEdit = (goalId, e) => {
+    const newText = e.target.textContent;
+    if (newText.trim()) {
+      updateGoalText(goalId, newText);
+    }
   };
 
   const getItemStyle = (isDragging, draggableStyle) => ({
     boxShadow: isDragging
       ? "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"
       : "none",
-
     ...draggableStyle,
   });
+
+  if (loading) {
+    return (
+      <div className="goal-list">
+        <div className="goal-list-loading">Loading goals...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="goal-list">
@@ -81,7 +76,7 @@ const GoalList = () => {
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             e.preventDefault();
-            addGoal();
+            handleAddGoal();
             setNewGoal("");
             e.target.innerHTML = "";
           }
@@ -91,7 +86,7 @@ const GoalList = () => {
         <Droppable droppableId="goal-list" type="group" direction="vertical">
           {(provided) => (
             <ul {...provided.droppableProps} ref={provided.innerRef}>
-              {goals.sort(moveCheckedToEnd).map((goal, index) => (
+              {goals.map((goal, index) => (
                 <Draggable
                   key={goal.id}
                   draggableId={goal.id}
@@ -130,14 +125,18 @@ const GoalList = () => {
                             color: grey[900],
                           },
                         }}
-                        checked={goal.crossed}
-                        onChange={() => toggleCrossed(goal.id)}
-                      ></Checkbox>
+                        checked={goal.completed}
+                        onChange={() => toggleCompleted(goal.id)}
+                      />
                       <div
-                        className={`list-item ${goal.crossed ? "crossed" : ""}`}
+                        className={`list-item ${
+                          goal.completed ? "crossed" : ""
+                        }`}
                         contentEditable
+                        suppressContentEditableWarning
+                        onBlur={(e) => handleTextEdit(goal.id, e)}
                       >
-                        {goal.content}
+                        {goal.text}
                       </div>
                       <button
                         className="delete-icon"

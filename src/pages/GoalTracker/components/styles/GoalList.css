@@ -76,3 +76,9 @@ li span {
 .crossed {
   text-decoration: line-through;
 }
+
+.goal-list-loading {
+  padding: 14px;
+  text-align: center;
+  color: #666;
+}
