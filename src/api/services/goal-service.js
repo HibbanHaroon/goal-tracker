@@ -288,14 +288,13 @@ export const updateGoal = async (userId, goalId, updates) => {
 };
 
 /**
- * Delete a goal from current goals
- * Also removes the goal ID from today's dailyProgress
+ * Delete a goal from current goals and remove from today's dailyProgress
  * @param {string} userId - User's UID
  * @param {string} goalId - Goal ID to delete
- * @param {string} dateKey - Today's date key (optional, for cleaning dailyProgress)
+ * @param {string} dateKey - Today's date key
  * @returns {Promise<{success: boolean, error: string|null}>}
  */
-export const deleteGoal = async (userId, goalId, dateKey = null) => {
+export const deleteGoal = async (userId, goalId, dateKey) => {
   try {
     if (!goalId) {
       return { success: false, error: "Goal ID is required" };
