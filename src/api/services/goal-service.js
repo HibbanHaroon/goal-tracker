@@ -55,12 +55,12 @@ export const getCurrentGoals = async (userId) => {
 export const saveCurrentGoals = async (userId, goals) => {
   try {
     const docRef = getCurrentGoalsDocRef(userId);
-    const items = goals.map((g, index) => {
-      const goalData =
-        g instanceof Goal ? g.toFirestore() : new Goal(g).toFirestore();
-      // Ensure order is set correctly
-      return { ...goalData, order: index };
-    });
+    const items = goals.map((g, index) => ({
+      id: g.id,
+      text: g.text,
+      order: index,
+      createdAt: g.createdAt || new Date(),
+    }));
 
     await setDoc(docRef, {
       items,
@@ -132,7 +132,7 @@ export const saveDailyProgress = async (userId, dateKey, completedIds) => {
  * Get goals with today's completion status merged
  * @param {string} userId - User's UID
  * @param {string} dateKey - Date in YYYY-MM-DD format
- * @returns {Promise<{goals: Goal[], error: string|null}>}
+ * @returns {Promise<{goals: Object[], error: string|null}>}
  */
 export const getGoalsWithStatus = async (userId, dateKey) => {
   try {
@@ -148,9 +148,12 @@ export const getGoalsWithStatus = async (userId, dateKey) => {
 
     const completedIds = new Set(progressResult.completedIds || []);
 
-    // Merge completion status into goals
+    // Merge completion status into goals (convert to plain objects)
     const goalsWithStatus = goalsResult.goals.map((goal) => ({
-      ...goal,
+      id: goal.id,
+      text: goal.text,
+      order: goal.order,
+      createdAt: goal.createdAt,
       completed: completedIds.has(goal.id),
     }));
 
@@ -176,7 +179,26 @@ export const toggleGoalComplete = async (
   completed
 ) => {
   try {
-    const { completedIds } = await getDailyProgress(userId, dateKey);
+    if (!userId || !dateKey || !goalId) {
+      console.error("toggleGoalComplete: Missing required params", {
+        userId,
+        dateKey,
+        goalId,
+      });
+      return { success: false, error: "Missing required parameters" };
+    }
+
+    const { completedIds, error: fetchError } = await getDailyProgress(
+      userId,
+      dateKey
+    );
+
+    if (fetchError) {
+      console.error(
+        "toggleGoalComplete: Error fetching daily progress",
+        fetchError
+      );
+    }
 
     let updatedIds;
     if (completed) {
@@ -187,7 +209,16 @@ export const toggleGoalComplete = async (
       updatedIds = completedIds.filter((id) => id !== goalId);
     }
 
-    return await saveDailyProgress(userId, dateKey, updatedIds);
+    const result = await saveDailyProgress(userId, dateKey, updatedIds);
+
+    if (result.error) {
+      console.error(
+        "toggleGoalComplete: Error saving daily progress",
+        result.error
+      );
+    }
+
+    return result;
   } catch (error) {
     console.error("Error toggling goal complete:", error);
     return { success: false, error: error.message };
@@ -201,15 +232,19 @@ export const toggleGoalComplete = async (
 /**
  * Add a new goal to current goals
  * @param {string} userId - User's UID
- * @param {Object} goalData - Goal data (text)
+ * @param {Object} goalData - Goal data (id, text)
  * @returns {Promise<{goal: Goal|null, error: string|null}>}
  */
 export const addGoal = async (userId, goalData) => {
   try {
-    const { goals } = await getCurrentGoals(userId);
+    const { goals, error: fetchError } = await getCurrentGoals(userId);
+
+    if (fetchError) {
+      return { goal: null, error: fetchError };
+    }
 
     const newGoal = new Goal({
-      id: Date.now().toString(),
+      id: goalData.id || Date.now().toString(),
       text: goalData.text,
       order: 0,
       createdAt: new Date(),
@@ -254,16 +289,43 @@ export const updateGoal = async (userId, goalId, updates) => {
 
 /**
  * Delete a goal from current goals
+ * Also removes the goal ID from today's dailyProgress
  * @param {string} userId - User's UID
  * @param {string} goalId - Goal ID to delete
+ * @param {string} dateKey - Today's date key (optional, for cleaning dailyProgress)
  * @returns {Promise<{success: boolean, error: string|null}>}
  */
-export const deleteGoal = async (userId, goalId) => {
+export const deleteGoal = async (userId, goalId, dateKey = null) => {
   try {
-    const { goals } = await getCurrentGoals(userId);
+    if (!goalId) {
+      return { success: false, error: "Goal ID is required" };
+    }
+
+    const { goals, error: fetchError } = await getCurrentGoals(userId);
+
+    if (fetchError) {
+      return { success: false, error: fetchError };
+    }
+
     const updatedGoals = goals.filter((goal) => goal.id !== goalId);
 
+    // Only save if something was actually deleted
+    if (updatedGoals.length === goals.length) {
+      console.warn("Goal not found for deletion:", goalId);
+      return { success: false, error: "Goal not found" };
+    }
+
     await saveCurrentGoals(userId, updatedGoals);
+
+    // Also remove from today's dailyProgress if dateKey provided
+    if (dateKey) {
+      const { completedIds } = await getDailyProgress(userId, dateKey);
+      if (completedIds.includes(goalId)) {
+        const updatedIds = completedIds.filter((id) => id !== goalId);
+        await saveDailyProgress(userId, dateKey, updatedIds);
+      }
+    }
+
     return { success: true, error: null };
   } catch (error) {
     console.error("Error deleting goal:", error);

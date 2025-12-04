@@ -37,10 +37,13 @@ const GoalList = () => {
     reorderGoals(result.source.index, result.destination.index);
   };
 
-  const handleTextEdit = (goalId, e) => {
-    const newText = e.target.textContent;
-    if (newText.trim()) {
+  const handleTextEdit = (goalId, originalText, e) => {
+    const newText = e.target.textContent.trim();
+    // Only update if text has actually changed
+    if (newText && newText !== originalText) {
       updateGoalText(goalId, newText);
+    } else if (!newText) {
+      e.target.textContent = originalText;
     }
   };
 
@@ -134,7 +137,7 @@ const GoalList = () => {
                         }`}
                         contentEditable
                         suppressContentEditableWarning
-                        onBlur={(e) => handleTextEdit(goal.id, e)}
+                        onBlur={(e) => handleTextEdit(goal.id, goal.text, e)}
                       >
                         {goal.text}
                       </div>

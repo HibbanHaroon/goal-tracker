@@ -2,16 +2,22 @@ import { useState, useEffect, useCallback } from "react";
 import { UserAuth } from "../context/AuthContext";
 import { getTodayDateKey } from "../utils/date-utils";
 import {
-  getGoals,
-  saveGoals,
+  getGoalsWithStatus,
   addGoal as addGoalService,
-  deleteGoal as deleteGoalService,
   updateGoal as updateGoalService,
+  deleteGoal as deleteGoalService,
+  reorderGoals as reorderGoalsService,
+  toggleGoalComplete as toggleGoalCompleteService,
 } from "../api/services/goal-service";
 
 /**
  * Custom hook for managing goals with Firestore
- * Handles CRUD operations and syncs with database
+ *
+ * Uses two collections:
+ * - Current Goals: Persistent goal list (text, order) - updates on add/edit/delete/reorder
+ * - Daily Progress: Completion status per day - updates only on toggle complete
+ *
+ * Each new day starts with all goals uncompleted (fresh start)
  */
 const useGoals = () => {
   const { user, loading: authLoading } = UserAuth();
@@ -23,7 +29,7 @@ const useGoals = () => {
   const userId = user?.uid;
 
   /**
-   * Fetch goals from Firestore
+   * Fetch current goals merged with today's completion status
    */
   const fetchGoals = useCallback(async () => {
     // Wait for auth to be ready and user to be authenticated
@@ -35,7 +41,7 @@ const useGoals = () => {
     setLoading(true);
     setError(null);
 
-    const { goals: fetchedGoals, error: fetchError } = await getGoals(
+    const { goals: fetchedGoals, error: fetchError } = await getGoalsWithStatus(
       userId,
       dateKey
     );
@@ -60,16 +66,18 @@ const useGoals = () => {
   }, [fetchGoals, authLoading]);
 
   /**
-   * Add a new goal
+   * Add a new goal (updates current goals)
    * @param {string} text - Goal text
    */
   const addGoal = useCallback(
     async (text) => {
       if (!userId || !text.trim()) return;
 
+      const goalId = Date.now().toString();
+
       // Optimistic update
       const tempGoal = {
-        id: Date.now().toString(),
+        id: goalId,
         text: text.trim(),
         order: 0,
         completed: false,
@@ -78,22 +86,21 @@ const useGoals = () => {
 
       setGoals((prev) => [tempGoal, ...prev]);
 
-      const { error: addError } = await addGoalService(userId, dateKey, {
+      const { error: addError } = await addGoalService(userId, {
+        id: goalId,
         text: text.trim(),
-        order: 0,
       });
 
       if (addError) {
         setError(addError);
-        // Revert on error
         await fetchGoals();
       }
     },
-    [userId, dateKey, fetchGoals]
+    [userId, fetchGoals]
   );
 
   /**
-   * Delete a goal
+   * Delete a goal (updates current goals and removes from today's dailyProgress)
    * @param {string} goalId - Goal ID to delete
    */
   const deleteGoal = useCallback(
@@ -105,8 +112,8 @@ const useGoals = () => {
 
       const { error: deleteError } = await deleteGoalService(
         userId,
-        dateKey,
-        goalId
+        goalId,
+        dateKey
       );
 
       if (deleteError) {
@@ -118,32 +125,34 @@ const useGoals = () => {
   );
 
   /**
-   * Toggle goal completed status
+   * Toggle goal completed status (updates only daily progress)
    * @param {string} goalId - Goal ID to toggle
    */
   const toggleCompleted = useCallback(
     async (goalId) => {
       if (!userId) return;
 
-      // Optimistic update
-      setGoals((prev) =>
-        prev.map((g) =>
-          g.id === goalId ? { ...g, completed: !g.completed } : g
-        )
-      );
-
       const goal = goals.find((g) => g.id === goalId);
       if (!goal) return;
 
-      const { error: updateError } = await updateGoalService(
+      const newCompletedStatus = !goal.completed;
+
+      // Optimistic update
+      setGoals((prev) =>
+        prev.map((g) =>
+          g.id === goalId ? { ...g, completed: newCompletedStatus } : g
+        )
+      );
+
+      const { error: toggleError } = await toggleGoalCompleteService(
         userId,
         dateKey,
         goalId,
-        { completed: !goal.completed }
+        newCompletedStatus
       );
 
-      if (updateError) {
-        setError(updateError);
+      if (toggleError) {
+        setError(toggleError);
         await fetchGoals();
       }
     },
@@ -151,7 +160,7 @@ const useGoals = () => {
   );
 
   /**
-   * Update goal text
+   * Update goal text (updates current goals)
    * @param {string} goalId - Goal ID to update
    * @param {string} newText - New text content
    */
@@ -164,23 +173,20 @@ const useGoals = () => {
         prev.map((g) => (g.id === goalId ? { ...g, text: newText.trim() } : g))
       );
 
-      const { error: updateError } = await updateGoalService(
-        userId,
-        dateKey,
-        goalId,
-        { text: newText.trim() }
-      );
+      const { error: updateError } = await updateGoalService(userId, goalId, {
+        text: newText.trim(),
+      });
 
       if (updateError) {
         setError(updateError);
         await fetchGoals();
       }
     },
-    [userId, dateKey, fetchGoals]
+    [userId, fetchGoals]
   );
 
   /**
-   * Reorder goals after drag and drop
+   * Reorder goals after drag and drop (updates current goals)
    * @param {number} sourceIndex - Original index
    * @param {number} destinationIndex - New index
    */
@@ -201,35 +207,28 @@ const useGoals = () => {
       // Optimistic update
       setGoals(reorderedGoals);
 
-      const { error: saveError } = await saveGoals(
+      const { error: reorderError } = await reorderGoalsService(
         userId,
-        dateKey,
         reorderedGoals
       );
 
-      if (saveError) {
-        setError(saveError);
+      if (reorderError) {
+        setError(reorderError);
         await fetchGoals();
       }
     },
-    [userId, dateKey, goals, fetchGoals]
+    [userId, goals, fetchGoals]
   );
 
   /**
    * Sort goals - incomplete first, then by order
-   * @param {Object} a - First goal
-   * @param {Object} b - Second goal
-   * @returns {number} Sort order
    */
   const sortGoals = useCallback((a, b) => {
     if (a.completed && !b.completed) return 1;
     if (!a.completed && b.completed) return -1;
-    return a.order - b.order;
+    return (a.order ?? 0) - (b.order ?? 0);
   }, []);
 
-  /**
-   * Get sorted goals
-   */
   const sortedGoals = [...goals].sort(sortGoals);
 
   return {
