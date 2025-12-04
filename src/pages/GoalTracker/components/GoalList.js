@@ -7,7 +7,7 @@ import { grey } from "@mui/material/colors";
 import useGoals from "../../../hooks/useGoals";
 import "./styles/GoalList.css";
 
-const GoalList = () => {
+const GoalList = ({ onGoalsChange }) => {
   const {
     goals,
     loading,
@@ -22,26 +22,39 @@ const GoalList = () => {
   const [draggedIndex, setDraggedIndex] = useState(null);
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
-  const handleAddGoal = () => {
+  const handleAddGoal = async () => {
     if (newGoal.trim() !== "") {
-      addGoal(newGoal);
+      await addGoal(newGoal);
       setNewGoal("");
+      onGoalsChange?.();
     }
   };
 
-  const handleDragEnd = (result) => {
+  const handleDelete = async (goalId) => {
+    await deleteGoal(goalId);
+    onGoalsChange?.();
+  };
+
+  const handleToggle = async (goalId) => {
+    await toggleCompleted(goalId);
+    onGoalsChange?.();
+  };
+
+  const handleDragEnd = async (result) => {
     setDraggedIndex(null);
 
     if (!result.destination) return;
 
-    reorderGoals(result.source.index, result.destination.index);
+    await reorderGoals(result.source.index, result.destination.index);
+    onGoalsChange?.();
   };
 
-  const handleTextEdit = (goalId, originalText, e) => {
+  const handleTextEdit = async (goalId, originalText, e) => {
     const newText = e.target.textContent.trim();
     // Only update if text has actually changed
     if (newText && newText !== originalText) {
-      updateGoalText(goalId, newText);
+      await updateGoalText(goalId, newText);
+      onGoalsChange?.();
     } else if (!newText) {
       e.target.textContent = originalText;
     }
@@ -129,7 +142,7 @@ const GoalList = () => {
                           },
                         }}
                         checked={goal.completed}
-                        onChange={() => toggleCompleted(goal.id)}
+                        onChange={() => handleToggle(goal.id)}
                       />
                       <div
                         className={`list-item ${
@@ -143,7 +156,7 @@ const GoalList = () => {
                       </div>
                       <button
                         className="delete-icon"
-                        onClick={() => deleteGoal(goal.id)}
+                        onClick={() => handleDelete(goal.id)}
                         style={{
                           visibility:
                             snapshot.isDragging || hoveredIndex === index
