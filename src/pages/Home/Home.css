@@ -1,22 +1,23 @@
 .home {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    background: linear-gradient(to right, black 50%, white 50%);
-  }
-  
-  .left, .right{
-    width: 50%;
-    display: flex;
-    align-items: center;
-  
-    padding: 0px 35px;
-  }
-  
-  .left{
-    justify-content: end;
-  }
-  
-  .right{
-    justify-content: start;
-  }
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: linear-gradient(to right, black 50%, white 50%);
+}
+
+.left,
+.right {
+  width: 50%;
+  display: flex;
+  align-items: center;
+
+  padding: 0px 35px;
+}
+
+.left {
+  justify-content: end;
+}
+
+.right {
+  justify-content: start;
+}

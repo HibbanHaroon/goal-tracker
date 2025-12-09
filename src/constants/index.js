@@ -8,5 +8,9 @@ export const STORAGE_KEYS = {
 
 export const ROUTES = {
   HOME: "/",
+  LOGIN: "/login",
+  SIGNUP: "/signup",
+  FORGOT_PASSWORD: "/forgot-password",
+  VERIFY_EMAIL: "/verify-email",
   TRACKER: "/tracker",
 };
