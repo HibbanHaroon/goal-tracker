@@ -1,47 +1,56 @@
-.main-header{
-    display: grid;
-    align-items: center;
-    grid-template-rows: 1fr;
-    grid-template-columns: 1fr auto;
-    width: 100%;
+.main-header {
+  display: grid;
+  align-items: center;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr auto;
+  width: 100%;
 }
 
-.main-header h1{
-    font-size: 2rem;
-    font-weight: 700;
-    justify-self: center;
+.main-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  justify-self: center;
 }
 
-.main-header button{
-    position: absolute;
-    padding: 0.8em 1em;
-    margin-right: 1em;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    justify-self: end;
-
-    border: 2px solid black;
-    border-radius: 0px;
-
-    cursor: pointer;
-    background-color: white;
-    color: black;
-
-    font-size: 1rem;
-    font-weight: 500;
+.header-actions {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  justify-self: end;
+  margin-right: 1em;
 }
 
-.main-header button:hover{
-    background-color: black;
-    color: white;
+.main-header button,
+.header-btn {
+  padding: 0.8em 1em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-    svg{
-        fill: white;
-    }
+  border: 2px solid black;
+  border-radius: 0px;
+
+  cursor: pointer;
+  background-color: white;
+  color: black;
+
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
 }
 
-.main-header svg{
-    fill: black;
-    margin-right: 10px;
+.main-header button:hover,
+.header-btn:hover {
+  background-color: black;
+  color: white;
+}
+
+.main-header button:hover svg {
+  fill: white;
+}
+
+.main-header svg {
+  fill: black;
+  margin-right: 10px;
 }

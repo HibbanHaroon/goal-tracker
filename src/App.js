@@ -8,6 +8,7 @@ import Login from "./pages/Auth/Login";
 import Signup from "./pages/Auth/Signup";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
 import VerifyEmail from "./pages/Auth/VerifyEmail";
+import UpgradeAccount from "./pages/Auth/UpgradeAccount";
 import GoalTracker from "./pages/GoalTracker/GoalTracker";
 import { ROUTES } from "./constants";
 import "./App.css";
@@ -56,6 +57,16 @@ function App() {
 
           {/* Verify email - accessible when logged in but not verified */}
           <Route path={ROUTES.VERIFY_EMAIL} element={<VerifyEmail />} />
+
+          {/* Upgrade account - for guest users only */}
+          <Route
+            path={ROUTES.UPGRADE_ACCOUNT}
+            element={
+              <Protected>
+                <UpgradeAccount />
+              </Protected>
+            }
+          />
 
           {/* Protected routes */}
           <Route
