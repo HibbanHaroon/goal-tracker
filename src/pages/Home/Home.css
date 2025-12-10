@@ -1,8 +1,9 @@
 .home {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
   background: linear-gradient(to right, black 50%, white 50%);
+  overflow-x: hidden;
 }
 
 .left,
@@ -20,4 +21,19 @@
 
 .right {
   justify-content: start;
+}
+
+/* Mobile: Solid white background */
+@media (max-width: 768px) {
+  .home {
+    background: white;
+    height: auto;
+    overflow-y: visible;
+  }
+
+  .left,
+  .right {
+    padding: 0;
+    width: 100%;
+  }
 }

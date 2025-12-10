@@ -10,7 +10,7 @@ import { ROUTES } from "../../constants";
 import HomeLayout from "../Home/components/HomeLayout";
 import "./Auth.css";
 
-function UpgradeAccount() {
+function LinkAccount() {
   const navigate = useNavigate();
   const { isGuestUser, linkGuestWithEmail, linkGuestWithGoogle } = UserAuth();
 
@@ -49,7 +49,7 @@ function UpgradeAccount() {
     setLoading(true);
     try {
       await linkGuestWithEmail(email, password);
-      showSuccess("Account upgraded successfully!");
+      showSuccess("Account linked successfully!");
       navigate(ROUTES.TRACKER);
     } catch (error) {
       showError(getAuthErrorMessage(error));
@@ -62,7 +62,7 @@ function UpgradeAccount() {
     setLoading(true);
     try {
       await linkGuestWithGoogle();
-      showSuccess("Account upgraded successfully!");
+      showSuccess("Account linked successfully!");
       navigate(ROUTES.TRACKER);
     } catch (error) {
       showError(getAuthErrorMessage(error));
@@ -71,9 +71,9 @@ function UpgradeAccount() {
   };
 
   return (
-    <HomeLayout>
+    <HomeLayout showBackButton={true}>
       <div className="auth-form-section">
-        <h1>Upgrade your account.</h1>
+        <h1>Link your account.</h1>
         <p className="auth-form-description">
           Link your guest account to keep your data permanently.
         </p>
@@ -142,7 +142,7 @@ function UpgradeAccount() {
               className="auth-btn auth-btn-primary"
               disabled={loading}
             >
-              {loading ? "Please wait..." : "Upgrade with Email"}
+              {loading ? "Please wait..." : "Link with Email"}
             </button>
           </form>
 
@@ -158,7 +158,7 @@ function UpgradeAccount() {
               disabled={loading}
             >
               <GoogleIcon width={18} height={18} />
-              Upgrade with Google
+              Link with Google
             </button>
           </div>
         </div>
@@ -167,4 +167,4 @@ function UpgradeAccount() {
   );
 }
 
-export default UpgradeAccount;
+export default LinkAccount;

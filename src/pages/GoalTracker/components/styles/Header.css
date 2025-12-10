@@ -16,20 +16,21 @@
   position: absolute;
   display: flex;
   align-items: center;
-  gap: 0.5em;
+  gap: 0.75em;
   justify-self: end;
   margin-right: 1em;
 }
 
-.main-header button,
+/* Desktop: Normal buttons with text */
 .header-btn {
   padding: 0.8em 1em;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 0.5em;
 
   border: 2px solid black;
-  border-radius: 0px;
+  border-radius: 0;
 
   cursor: pointer;
   background-color: white;
@@ -37,20 +38,58 @@
 
   font-size: 1rem;
   font-weight: 500;
-  text-decoration: none;
+  transition: all 0.2s ease;
 }
 
-.main-header button:hover,
+.header-btn .btn-text {
+  display: inline;
+}
+
 .header-btn:hover {
   background-color: black;
   color: white;
 }
 
-.main-header button:hover svg {
-  fill: white;
+.header-btn svg {
+  fill: black;
+  stroke: black;
 }
 
-.main-header svg {
-  fill: black;
-  margin-right: 10px;
+.header-btn:hover svg {
+  fill: white;
+  stroke: white;
+}
+
+/* Mobile: Circular icon buttons */
+@media (max-width: 768px) {
+  .main-header {
+    padding: 0.5em 0;
+  }
+
+  .main-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .header-actions {
+    margin-right: 0.75em;
+  }
+
+  .header-btn {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 50%;
+  }
+
+  .header-btn .btn-text {
+    display: none;
+  }
+
+  .header-btn:hover {
+    transform: scale(1.05);
+  }
+
+  .header-btn:active {
+    transform: scale(0.95);
+  }
 }

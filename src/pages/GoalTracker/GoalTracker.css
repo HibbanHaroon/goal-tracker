@@ -1,6 +1,17 @@
-.goal-tracker{
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    /* padding: 1.5em; */
+.goal-tracker {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow-x: hidden;
+  width: 100%;
+  /* padding: 1.5em; */
+}
+
+/* Mobile: Allow vertical scroll */
+@media (max-width: 1024px) {
+  .goal-tracker {
+    height: auto;
+    min-height: 100vh;
+    overflow-y: auto;
+  }
 }

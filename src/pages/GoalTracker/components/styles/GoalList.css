@@ -82,3 +82,26 @@ li span {
   text-align: center;
   color: #666;
 }
+
+/* Mobile Responsive */
+@media (max-width: 1024px) {
+  .goal-list {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+  }
+
+  .editable-div {
+    padding: 16px;
+    font-size: 1rem;
+  }
+
+  li {
+    padding: 12px 20px 12px 16px;
+    min-height: 48px; /* Better touch target */
+  }
+
+  .list-item {
+    font-size: 1rem;
+  }
+}

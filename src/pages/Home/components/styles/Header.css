@@ -7,9 +7,69 @@
   filter: invert(100%);
   mix-blend-mode: difference;
   flex: 0 1 auto;
+  position: relative;
 }
 
 .header h1 {
   font-size: 2rem;
   font-weight: 700;
+}
+
+/* Back button - hidden on desktop */
+.back-button {
+  display: none;
+}
+
+/* Mobile: Show complete header without split */
+@media (max-width: 768px) {
+  .header {
+    filter: none;
+    mix-blend-mode: normal;
+    justify-content: center;
+    height: auto;
+    min-height: 70px;
+    padding: 16px 16px;
+    flex-shrink: 0;
+  }
+
+  .back-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    color: black;
+    transition: opacity 0.2s ease;
+  }
+
+  .back-button:active {
+    opacity: 0.6;
+  }
+
+  .back-button svg {
+    stroke: black;
+  }
+
+  .header .left {
+    width: 100%;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .header .left h1 {
+    text-align: center;
+    font-size: 1.6rem;
+  }
+
+  .header .left h1::after {
+    content: " Tracker";
+  }
+
+  .header .right {
+    display: none;
+  }
 }

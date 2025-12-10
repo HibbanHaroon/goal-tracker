@@ -1,5 +1,15 @@
-.app{
-    font-family: "Montserrat", sans-serif;
-    font-optical-sizing: auto;
-    font-style: normal;
+.app {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  overflow-x: hidden;
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Mobile: Allow natural height */
+@media (max-width: 768px) {
+  .app {
+    height: auto;
+  }
 }

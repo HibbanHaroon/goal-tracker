@@ -12,6 +12,6 @@ export const ROUTES = {
   SIGNUP: "/signup",
   FORGOT_PASSWORD: "/forgot-password",
   VERIFY_EMAIL: "/verify-email",
-  UPGRADE_ACCOUNT: "/upgrade-account",
+  LINK_ACCOUNT: "/link-account",
   TRACKER: "/tracker",
 };

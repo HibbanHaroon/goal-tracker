@@ -3,10 +3,10 @@ import Header from "./Header";
 import "../Home.css";
 import "./styles/Content.css";
 
-function HomeLayout({ children }) {
+function HomeLayout({ children, showBackButton = false }) {
   return (
     <div className="home">
-      <Header />
+      <Header showBackButton={showBackButton} />
       <div className="content">
         <div className="content-left">
           <div className="circle-container circle-right">

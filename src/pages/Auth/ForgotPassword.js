@@ -35,7 +35,7 @@ function ForgotPassword() {
   };
 
   return (
-    <HomeLayout>
+    <HomeLayout showBackButton={true}>
       <div className="auth-form-section">
         <h1>Reset your password.</h1>
         <p className="auth-form-description">

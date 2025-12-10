@@ -74,7 +74,7 @@ function Signup() {
   };
 
   return (
-    <HomeLayout>
+    <HomeLayout showBackButton={true}>
       <div className="auth-form-section">
         <h1>Start tracking today.</h1>
 

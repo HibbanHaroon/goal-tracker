@@ -80,3 +80,64 @@
   font-size: 0.75rem;
   color: #aaa;
 }
+
+/* Mobile Responsive */
+@media (max-width: 1024px) {
+  .progress-graph-container {
+    margin: 1.5em 0 0 0;
+    padding: 1em 0.5em;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .progress-graph-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1em;
+    margin-bottom: 1em;
+    padding: 0 0.5em;
+  }
+
+  .progress-graph-header h2 {
+    font-size: 1.25rem;
+  }
+
+  .progress-stats {
+    width: 100%;
+    justify-content: space-around;
+    gap: 1em;
+  }
+
+  .stat-item {
+    flex: 1;
+  }
+
+  .stat-value {
+    font-size: 1.1rem;
+  }
+
+  .stat-label {
+    font-size: 0.7rem;
+  }
+
+  .progress-graph-chart {
+    width: 100%;
+    overflow-x: auto;
+    padding: 0;
+  }
+
+  /* Ensure chart fits properly */
+  .progress-graph-chart > div {
+    min-width: 100%;
+  }
+
+  /* Tooltip adjustments for mobile */
+  .progress-tooltip {
+    font-size: 0.8rem;
+    padding: 0.5em 0.75em;
+  }
+
+  .tooltip-percentage {
+    font-size: 1.1rem;
+  }
+}

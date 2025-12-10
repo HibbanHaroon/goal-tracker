@@ -66,7 +66,7 @@ function Login() {
   };
 
   return (
-    <HomeLayout>
+    <HomeLayout showBackButton={true}>
       <div className="auth-form-section">
         <h1>Welcome back.</h1>
 
