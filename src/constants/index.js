@@ -14,4 +14,6 @@ export const ROUTES = {
   VERIFY_EMAIL: "/verify-email",
   LINK_ACCOUNT: "/link-account",
   TRACKER: "/tracker",
+  FEATURES: "/features",
+  ABOUT: "/about",
 };
