@@ -12,6 +12,7 @@ import LinkAccount from "./pages/Auth/LinkAccount";
 import GoalTracker from "./pages/GoalTracker/GoalTracker";
 import Features from "./pages/Features/Features";
 import About from "./pages/About/About";
+import ScrollToTop from "./components/ScrollToTop";
 import { ROUTES } from "./constants";
 import "./App.css";
 
@@ -20,6 +21,7 @@ function App() {
 
   return (
     <AuthContextProvider navigate={navigate}>
+      <ScrollToTop />
       <Toaster position="top-right" />
       <div className="app">
         <Routes>
