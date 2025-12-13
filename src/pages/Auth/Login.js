@@ -9,6 +9,7 @@ import { getAuthErrorMessage } from "../../utils/auth-utils";
 import { showError } from "../../utils/toast-utils";
 import { ROUTES } from "../../constants";
 import HomeLayout from "../Home/components/HomeLayout";
+import SEO from "../../components/SEO";
 import "./Auth.css";
 
 function Login() {
@@ -66,98 +67,104 @@ function Login() {
   };
 
   return (
-    <HomeLayout showBackButton={true}>
-      <div className="auth-form-section">
-        <h1>Welcome back.</h1>
+    <>
+      <SEO />
+      <HomeLayout showBackButton={true}>
+        <div className="auth-form-section">
+          <h1>Welcome back.</h1>
 
-        <div className="auth-form-container">
-          <form className="auth-form" onSubmit={handleSubmit}>
-            <div className="input-group">
-              <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+          <div className="auth-form-container">
+            <form className="auth-form" onSubmit={handleSubmit}>
+              <div className="input-group">
+                <input
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  disabled={loading}
+                  autoComplete="email"
+                />
+              </div>
+
+              <div className="input-group input-group-password">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  disabled={loading}
+                  autoComplete="current-password"
+                />
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={() => setShowPassword(!showPassword)}
+                  tabIndex={-1}
+                >
+                  {showPassword ? (
+                    <EyeClosedIcon width={20} height={20} />
+                  ) : (
+                    <EyeIcon width={20} height={20} />
+                  )}
+                </button>
+              </div>
+
+              <Link
+                to={ROUTES.FORGOT_PASSWORD}
+                className="text-link forgot-link"
+              >
+                Forgot password?
+              </Link>
+
+              <button
+                type="submit"
+                className="auth-btn auth-btn-primary"
                 disabled={loading}
-                autoComplete="email"
-              />
+              >
+                {loading ? "Please wait..." : "Sign In"}
+              </button>
+            </form>
+
+            <div className="auth-divider">
+              <span>or</span>
             </div>
 
-            <div className="input-group input-group-password">
-              <input
-                type={showPassword ? "text" : "password"}
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                disabled={loading}
-                autoComplete="current-password"
-              />
+            <div className="auth-alternatives">
               <button
                 type="button"
-                className="password-toggle"
-                onClick={() => setShowPassword(!showPassword)}
-                tabIndex={-1}
+                className="auth-btn"
+                onClick={handleGoogleSignIn}
+                disabled={loading}
               >
-                {showPassword ? (
-                  <EyeClosedIcon width={20} height={20} />
-                ) : (
-                  <EyeIcon width={20} height={20} />
-                )}
+                <GoogleIcon width={18} height={18} />
+                Continue with Google
+              </button>
+
+              <button
+                type="button"
+                className="auth-btn"
+                onClick={handleGuestSignIn}
+                disabled={loading}
+              >
+                <UserIcon width={18} height={18} />
+                Continue as Guest
               </button>
             </div>
 
-            <Link to={ROUTES.FORGOT_PASSWORD} className="text-link forgot-link">
-              Forgot password?
-            </Link>
+            <p className="guest-notice">
+              Guest data is temporary and will be lost if you sign out.
+            </p>
 
-            <button
-              type="submit"
-              className="auth-btn auth-btn-primary"
-              disabled={loading}
-            >
-              {loading ? "Please wait..." : "Sign In"}
-            </button>
-          </form>
-
-          <div className="auth-divider">
-            <span>or</span>
-          </div>
-
-          <div className="auth-alternatives">
-            <button
-              type="button"
-              className="auth-btn"
-              onClick={handleGoogleSignIn}
-              disabled={loading}
-            >
-              <GoogleIcon width={18} height={18} />
-              Continue with Google
-            </button>
-
-            <button
-              type="button"
-              className="auth-btn"
-              onClick={handleGuestSignIn}
-              disabled={loading}
-            >
-              <UserIcon width={18} height={18} />
-              Continue as Guest
-            </button>
-          </div>
-
-          <p className="guest-notice">
-            Guest data is temporary and will be lost if you sign out.
-          </p>
-
-          <div className="auth-footer">
-            Don't have an account?{" "}
-            <Link to={ROUTES.SIGNUP} className="text-link">
-              Create one
-            </Link>
+            <div className="auth-footer">
+              Don't have an account?{" "}
+              <Link to={ROUTES.SIGNUP} className="text-link">
+                Create one
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
-    </HomeLayout>
+      </HomeLayout>
+    </>
   );
 }
 

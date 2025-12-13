@@ -1,4 +1,5 @@
 import { Route, Routes, useNavigate } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
 import { Toaster } from "react-hot-toast";
 import { AuthContextProvider } from "./context/AuthContext";
 import Protected from "./auth/Protected";
@@ -20,86 +21,88 @@ function App() {
   const navigate = useNavigate();
 
   return (
-    <AuthContextProvider navigate={navigate}>
-      <ScrollToTop />
-      <Toaster position="top-right" />
-      <div className="app">
-        <Routes>
-          {/* Public routes */}
-          <Route
-            path={ROUTES.HOME}
-            element={
-              <PublicOnly>
-                <Home />
-              </PublicOnly>
-            }
-          />
-          <Route
-            path={ROUTES.LOGIN}
-            element={
-              <PublicOnly>
-                <Login />
-              </PublicOnly>
-            }
-          />
-          <Route
-            path={ROUTES.SIGNUP}
-            element={
-              <PublicOnly>
-                <Signup />
-              </PublicOnly>
-            }
-          />
-          <Route
-            path={ROUTES.FORGOT_PASSWORD}
-            element={
-              <PublicOnly>
-                <ForgotPassword />
-              </PublicOnly>
-            }
-          />
-          <Route
-            path={ROUTES.FEATURES}
-            element={
-              <PublicOnly>
-                <Features />
-              </PublicOnly>
-            }
-          />
-          <Route
-            path={ROUTES.ABOUT}
-            element={
-              <PublicOnly>
-                <About />
-              </PublicOnly>
-            }
-          />
+    <HelmetProvider>
+      <AuthContextProvider navigate={navigate}>
+        <ScrollToTop />
+        <Toaster position="top-right" />
+        <div className="app">
+          <Routes>
+            {/* Public routes */}
+            <Route
+              path={ROUTES.HOME}
+              element={
+                <PublicOnly>
+                  <Home />
+                </PublicOnly>
+              }
+            />
+            <Route
+              path={ROUTES.LOGIN}
+              element={
+                <PublicOnly>
+                  <Login />
+                </PublicOnly>
+              }
+            />
+            <Route
+              path={ROUTES.SIGNUP}
+              element={
+                <PublicOnly>
+                  <Signup />
+                </PublicOnly>
+              }
+            />
+            <Route
+              path={ROUTES.FORGOT_PASSWORD}
+              element={
+                <PublicOnly>
+                  <ForgotPassword />
+                </PublicOnly>
+              }
+            />
+            <Route
+              path={ROUTES.FEATURES}
+              element={
+                <PublicOnly>
+                  <Features />
+                </PublicOnly>
+              }
+            />
+            <Route
+              path={ROUTES.ABOUT}
+              element={
+                <PublicOnly>
+                  <About />
+                </PublicOnly>
+              }
+            />
 
-          {/* Verify email - accessible when logged in but not verified */}
-          <Route path={ROUTES.VERIFY_EMAIL} element={<VerifyEmail />} />
+            {/* Verify email - accessible when logged in but not verified */}
+            <Route path={ROUTES.VERIFY_EMAIL} element={<VerifyEmail />} />
 
-          {/* Link account - for guest users only */}
-          <Route
-            path={ROUTES.LINK_ACCOUNT}
-            element={
-              <Protected>
-                <LinkAccount />
-              </Protected>
-            }
-          />
+            {/* Link account - for guest users only */}
+            <Route
+              path={ROUTES.LINK_ACCOUNT}
+              element={
+                <Protected>
+                  <LinkAccount />
+                </Protected>
+              }
+            />
 
-          {/* Protected routes */}
-          <Route
-            path={ROUTES.TRACKER}
-            element={
-              <Protected>
-                <GoalTracker />
-              </Protected>
-            }
-          />
-        </Routes>
-      </div>
-    </AuthContextProvider>
+            {/* Protected routes */}
+            <Route
+              path={ROUTES.TRACKER}
+              element={
+                <Protected>
+                  <GoalTracker />
+                </Protected>
+              }
+            />
+          </Routes>
+        </div>
+      </AuthContextProvider>
+    </HelmetProvider>
   );
 }
 

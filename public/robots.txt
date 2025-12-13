@@ -1,3 +1,14 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow:
+Allow: /
+Allow: /features
+Allow: /about
+Allow: /login
+Allow: /signup
+Disallow: /tracker
+Disallow: /verify-email
+Disallow: /link-account
+Disallow: /forgot-password
+
+# Sitemap
+Sitemap: https://goaltracker.fun/sitemap.xml
