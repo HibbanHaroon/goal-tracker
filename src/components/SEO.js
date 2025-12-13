@@ -49,7 +49,10 @@ const SEO = ({
       <meta property="og:url" content={seoCanonical} />
       <meta property="og:title" content={seoTitle} />
       <meta property="og:description" content={seoDescription} />
-      <meta name="image" property="og:image" content={seoOgImage} />
+      <meta property="og:image" content={seoOgImage} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content={seoTitle} />
       <meta property="og:site_name" content={SITE_METADATA.name} />
       <meta property="og:locale" content="en_US" />
 
@@ -59,6 +62,7 @@ const SEO = ({
       <meta name="twitter:title" content={seoTitle} />
       <meta name="twitter:description" content={seoDescription} />
       <meta name="twitter:image" content={seoOgImage} />
+      <meta name="twitter:image:alt" content={seoTitle} />
       {SITE_METADATA.twitterHandle && (
         <meta name="twitter:site" content={`@${SITE_METADATA.twitterHandle}`} />
       )}
