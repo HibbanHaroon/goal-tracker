@@ -4,14 +4,7 @@
  * - goals/current: Persistent goal list (text, order)
  * - dailyProgress/{date}: Daily completion status (completed goal IDs)
  */
-import {
-  getDoc,
-  setDoc,
-  getDocs,
-  query,
-  where,
-  orderBy,
-} from "firebase/firestore";
+import { getDoc, setDoc, getDocs } from "firebase/firestore";
 import {
   getCurrentGoalsDocRef,
   getDailyProgressDocRef,
@@ -79,10 +72,10 @@ export const saveCurrentGoals = async (userId, goals) => {
 // ============================================
 
 /**
- * Get completed goal IDs for a specific date
+ * Get completed goal IDs and totalGoals for a specific date
  * @param {string} userId - User's UID
  * @param {string} dateKey - Date in YYYY-MM-DD format
- * @returns {Promise<{completedIds: string[], error: string|null}>}
+ * @returns {Promise<{completedIds: string[], totalGoals: number|null, error: string|null}>}
  */
 export const getDailyProgress = async (userId, dateKey) => {
   try {
@@ -91,29 +84,40 @@ export const getDailyProgress = async (userId, dateKey) => {
 
     if (docSnap.exists()) {
       const data = docSnap.data();
-      return { completedIds: data.completedGoals || [], error: null };
+      return {
+        completedIds: data.completedGoals || [],
+        totalGoals: data.totalGoals ?? null,
+        error: null,
+      };
     }
 
-    return { completedIds: [], error: null };
+    return { completedIds: [], totalGoals: null, error: null };
   } catch (error) {
     console.error("Error fetching daily progress:", error);
-    return { completedIds: [], error: error.message };
+    return { completedIds: [], totalGoals: null, error: error.message };
   }
 };
 
 /**
- * Save completed goal IDs for a specific date
+ * Save completed goal IDs and totalGoals for a specific date
  * @param {string} userId - User's UID
  * @param {string} dateKey - Date in YYYY-MM-DD format
  * @param {string[]} completedIds - Array of completed goal IDs
+ * @param {number} totalGoals - Total number of goals that existed on this day
  * @returns {Promise<{success: boolean, error: string|null}>}
  */
-export const saveDailyProgress = async (userId, dateKey, completedIds) => {
+export const saveDailyProgress = async (
+  userId,
+  dateKey,
+  completedIds,
+  totalGoals
+) => {
   try {
     const docRef = getDailyProgressDocRef(userId, dateKey);
 
     await setDoc(docRef, {
       completedGoals: completedIds,
+      totalGoals: totalGoals,
       updatedAt: new Date(),
     });
 
@@ -170,13 +174,15 @@ export const getGoalsWithStatus = async (userId, dateKey) => {
  * @param {string} dateKey - Date in YYYY-MM-DD format
  * @param {string} goalId - Goal ID to toggle
  * @param {boolean} completed - New completion status
+ * @param {number} totalGoals - Total number of goals that exist today
  * @returns {Promise<{success: boolean, error: string|null}>}
  */
 export const toggleGoalComplete = async (
   userId,
   dateKey,
   goalId,
-  completed
+  completed,
+  totalGoals
 ) => {
   try {
     if (!userId || !dateKey || !goalId) {
@@ -186,6 +192,16 @@ export const toggleGoalComplete = async (
         goalId,
       });
       return { success: false, error: "Missing required parameters" };
+    }
+
+    if (totalGoals === undefined || totalGoals === null) {
+      console.error("toggleGoalComplete: totalGoals is required", {
+        userId,
+        dateKey,
+        goalId,
+        totalGoals,
+      });
+      return { success: false, error: "totalGoals is required" };
     }
 
     const { completedIds, error: fetchError } = await getDailyProgress(
@@ -209,7 +225,12 @@ export const toggleGoalComplete = async (
       updatedIds = completedIds.filter((id) => id !== goalId);
     }
 
-    const result = await saveDailyProgress(userId, dateKey, updatedIds);
+    const result = await saveDailyProgress(
+      userId,
+      dateKey,
+      updatedIds,
+      totalGoals
+    );
 
     if (result.error) {
       console.error(
@@ -321,7 +342,9 @@ export const deleteGoal = async (userId, goalId, dateKey) => {
       const { completedIds } = await getDailyProgress(userId, dateKey);
       if (completedIds.includes(goalId)) {
         const updatedIds = completedIds.filter((id) => id !== goalId);
-        await saveDailyProgress(userId, dateKey, updatedIds);
+        // Use the new total goals count (after deletion)
+        const newTotalGoals = updatedGoals.length;
+        await saveDailyProgress(userId, dateKey, updatedIds, newTotalGoals);
       }
     }
 
@@ -363,8 +386,9 @@ export const getYearlyProgress = async (userId, year) => {
     const collectionRef = getDailyProgressCollectionRef(userId);
     const snapshot = await getDocs(collectionRef);
 
+    // Get current goals as fallback for legacy data
     const { goals } = await getCurrentGoals(userId);
-    const totalGoals = goals.length;
+    const currentTotalGoals = goals.length;
 
     const progress = [];
     snapshot.forEach((doc) => {
@@ -372,12 +396,24 @@ export const getYearlyProgress = async (userId, year) => {
       if (doc.id.startsWith(year)) {
         const data = doc.data();
         const completed = (data.completedGoals || []).length;
+        // Use stored totalGoals from that day's document, fallback to current total if missing (legacy data)
+        const storedTotalGoals = data.totalGoals ?? currentTotalGoals;
+
+        if (storedTotalGoals === null && data.totalGoals === undefined) {
+          // Legacy data without totalGoals - log warning
+          console.warn(
+            `Legacy dailyProgress document ${doc.id} missing totalGoals, using current total: ${currentTotalGoals}`
+          );
+        }
+
         progress.push({
           date: doc.id,
           completed,
-          total: totalGoals,
+          total: storedTotalGoals,
           percentage:
-            totalGoals > 0 ? Math.round((completed / totalGoals) * 100) : 0,
+            storedTotalGoals > 0
+              ? Math.round((completed / storedTotalGoals) * 100)
+              : 0,
         });
       }
     });

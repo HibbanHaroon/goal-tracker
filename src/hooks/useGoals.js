@@ -136,6 +136,8 @@ const useGoals = () => {
       if (!goal) return;
 
       const newCompletedStatus = !goal.completed;
+      // Get current total goals count to store with daily progress
+      const totalGoals = goals.length;
 
       // Optimistic update
       setGoals((prev) =>
@@ -148,7 +150,8 @@ const useGoals = () => {
         userId,
         dateKey,
         goalId,
-        newCompletedStatus
+        newCompletedStatus,
+        totalGoals
       );
 
       if (toggleError) {

@@ -6,7 +6,6 @@ import TrackIcon from "../../../assets/icons/TrackIcon";
 import MusicIcon from "../../../assets/icons/MusicIcon";
 import ClockIcon from "../../../assets/icons/ClockIcon";
 import CalendarIcon from "../../../assets/icons/CalendarIcon";
-import QuoteIcon from "../../../assets/icons/QuoteIcon";
 import "./styles/FeaturesContent.css";
 
 function FeaturesContent() {

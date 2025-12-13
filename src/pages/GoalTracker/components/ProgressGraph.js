@@ -122,11 +122,21 @@ const ProgressGraph = ({ refreshKey }) => {
               y={averagePercentage}
               stroke="#999"
               strokeDasharray="5 5"
-              label={{
-                value: `Avg: ${averagePercentage}%`,
-                position: "right",
-                fontSize: 12,
-                fill: "#666",
+              label={({ viewBox }) => {
+                if (viewBox && viewBox.width !== undefined) {
+                  return (
+                    <text
+                      x={viewBox.x + 50}
+                      y={viewBox.y - 5}
+                      fill="#666"
+                      fontSize={12}
+                      textAnchor="end"
+                    >
+                      Avg: {averagePercentage}%
+                    </text>
+                  );
+                }
+                return null;
               }}
             />
             <Line
