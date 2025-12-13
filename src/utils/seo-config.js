@@ -9,7 +9,7 @@ export const SITE_METADATA = {
   description:
     "Track your day-to-day goals with Goal Tracker. Visualize progress, stay motivated, and achieve your dreams with our intuitive goal tracking platform.",
   defaultImage: `${BASE_URL}/og-image-default.png`,
-  twitterHandle: "hibbanharoon",
+  twitterHandle: "HibbanHaroon",
   siteUrl: BASE_URL,
 };
 
