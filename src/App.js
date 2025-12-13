@@ -11,6 +11,7 @@ import VerifyEmail from "./pages/Auth/VerifyEmail";
 import LinkAccount from "./pages/Auth/LinkAccount";
 import GoalTracker from "./pages/GoalTracker/GoalTracker";
 import Features from "./pages/Features/Features";
+import About from "./pages/About/About";
 import { ROUTES } from "./constants";
 import "./App.css";
 
@@ -60,6 +61,14 @@ function App() {
             element={
               <PublicOnly>
                 <Features />
+              </PublicOnly>
+            }
+          />
+          <Route
+            path={ROUTES.ABOUT}
+            element={
+              <PublicOnly>
+                <About />
               </PublicOnly>
             }
           />

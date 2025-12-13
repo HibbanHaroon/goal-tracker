@@ -1,0 +1,45 @@
+.about-page {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+}
+
+/* About page specific header styling - black background with white text */
+.about-header {
+  background: linear-gradient(to right, black 50%, white 50%);
+}
+
+.about-header .left {
+  color: white !important;
+}
+
+/* Mobile About Header */
+@media (max-width: 768px) {
+  .about-header {
+    background: black !important;
+  }
+
+  .about-header .left {
+    color: white !important;
+    width: 100% !important;
+    justify-content: flex-start !important;
+    padding-left: 16px !important;
+  }
+
+  .about-header .left h1 {
+    text-align: start !important;
+  }
+
+  .about-header .get-started-btn {
+    border: 2px solid white;
+    background-color: transparent;
+    color: white;
+  }
+
+  .about-header .get-started-btn:hover {
+    background-color: white;
+    color: black;
+  }
+}
