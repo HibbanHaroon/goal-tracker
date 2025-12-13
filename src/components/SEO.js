@@ -49,7 +49,7 @@ const SEO = ({
       <meta property="og:url" content={seoCanonical} />
       <meta property="og:title" content={seoTitle} />
       <meta property="og:description" content={seoDescription} />
-      <meta property="og:image" content={seoOgImage} />
+      <meta name="image" property="og:image" content={seoOgImage} />
       <meta property="og:site_name" content={SITE_METADATA.name} />
       <meta property="og:locale" content="en_US" />
 
