@@ -10,6 +10,7 @@ import ForgotPassword from "./pages/Auth/ForgotPassword";
 import VerifyEmail from "./pages/Auth/VerifyEmail";
 import LinkAccount from "./pages/Auth/LinkAccount";
 import GoalTracker from "./pages/GoalTracker/GoalTracker";
+import Features from "./pages/Features/Features";
 import { ROUTES } from "./constants";
 import "./App.css";
 
@@ -51,6 +52,14 @@ function App() {
             element={
               <PublicOnly>
                 <ForgotPassword />
+              </PublicOnly>
+            }
+          />
+          <Route
+            path={ROUTES.FEATURES}
+            element={
+              <PublicOnly>
+                <Features />
               </PublicOnly>
             }
           />

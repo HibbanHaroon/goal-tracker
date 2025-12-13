@@ -1,9 +1,14 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import ArrowLeftIcon from "../../../assets/icons/ArrowLeftIcon";
+import { ROUTES } from "../../../constants";
 import "./styles/Header.css";
 
-function Header({ showBackButton = false }) {
+function Header({
+  showBackButton = false,
+  showGetStarted = false,
+  className = "",
+}) {
   const navigate = useNavigate();
 
   const handleBack = () => {
@@ -11,7 +16,7 @@ function Header({ showBackButton = false }) {
   };
 
   return (
-    <div className="header">
+    <div className={`header ${className}`}>
       {showBackButton && (
         <button
           className="back-button"
@@ -27,6 +32,11 @@ function Header({ showBackButton = false }) {
       <div className="right">
         <h1>Tracker</h1>
       </div>
+      {showGetStarted && (
+        <Link to={ROUTES.SIGNUP} className="get-started-btn">
+          Get Started
+        </Link>
+      )}
     </div>
   );
 }
