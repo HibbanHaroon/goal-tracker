@@ -1,0 +1,148 @@
+.log-day-title-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.log-day-title-wrapper h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: black;
+}
+
+.log-day-subtitle {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.log-day-dialog .MuiDialog-paper {
+  border: none;
+  border-radius: 0;
+}
+
+.log-day-dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-top: 8px;
+}
+
+.log-day-date-picker {
+  width: 100%;
+}
+
+.log-day-goals-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.log-day-goals-list h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.log-day-goals-container {
+  border: 1px solid #ccc;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.log-day-goals-container ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.log-day-goals-container li {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
+  gap: 12px;
+}
+
+.log-day-goals-container li:first-child {
+  border-top: none;
+}
+
+.log-day-goals-container li:last-child {
+  border-bottom: none;
+}
+
+.log-day-goals-container li span {
+  font-size: 1rem;
+}
+
+.log-day-loading,
+.log-day-empty {
+  padding: 24px;
+  text-align: center;
+  color: #666;
+}
+
+/* DatePicker input focus + hover */
+.log-day-dialog
+  .MuiOutlinedInput-root.Mui-focused
+  .MuiOutlinedInput-notchedOutline {
+  border-color: black;
+}
+
+.log-day-dialog .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: black;
+}
+
+.log-day-dialog .MuiInputLabel-root.Mui-focused {
+  color: black;
+}
+
+.log-day-dialog .MuiOutlinedInput-input {
+  caret-color: black;
+}
+
+/* Calendar icon */
+.log-day-dialog .MuiIconButton-root {
+  color: black;
+}
+
+/* Cancel button text */
+.log-day-dialog .MuiButton-text {
+  color: black;
+}
+
+/* Hover background (light gray, not blue) */
+.log-day-dialog .MuiButton-text:hover {
+  background-color: #eee;
+}
+
+/* Remove blue focus/active states */
+.log-day-dialog .MuiButton-text:focus {
+  background-color: #eee;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .log-day-dialog-content {
+    gap: 20px;
+  }
+
+  .log-day-goals-container {
+    max-height: 250px;
+  }
+
+  .log-day-goals-container li {
+    padding: 10px 12px;
+  }
+
+  .log-day-dialog .MuiDialogContent-root {
+    padding: 16px;
+  }
+
+  .log-day-dialog .MuiDialogActions-root {
+    padding: 12px 16px;
+  }
+}

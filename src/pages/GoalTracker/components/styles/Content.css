@@ -61,3 +61,78 @@
     margin: 1.5em 0 0 0;
   }
 }
+
+/* Goal List Header */
+.goal-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 14px;
+}
+
+.goal-list-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+/* Desktop: Normal buttons with text */
+.goal-list-header-btn {
+  padding: 0.8em 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+
+  border: 2px solid black;
+  border-radius: 0;
+
+  cursor: pointer;
+  background-color: white;
+  color: black;
+
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.goal-list-header-btn .goal-list-header-btn-text {
+  display: inline;
+}
+
+.goal-list-header-btn:hover {
+  background-color: black;
+  color: white;
+}
+
+.goal-list-header-btn svg {
+  fill: black;
+  stroke: black;
+}
+
+.goal-list-header-btn:hover svg {
+  fill: white;
+  stroke: white;
+}
+
+/* Mobile: Circular icon buttons */
+@media (max-width: 768px) {
+  .goal-list-header-btn {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 50%;
+  }
+
+  .goal-list-header-btn .goal-list-header-btn-text {
+    display: none;
+  }
+
+  .goal-list-header-btn:hover {
+    transform: scale(1.05);
+  }
+
+  .goal-list-header-btn:active {
+    transform: scale(0.95);
+  }
+}
