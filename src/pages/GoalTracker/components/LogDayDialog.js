@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -12,6 +12,7 @@ import dayjs from "dayjs";
 import { UserAuth } from "../../../context/AuthContext";
 import { getCurrentGoals } from "../../../api/services/goal-service";
 import { saveDailyProgress } from "../../../api/services/goal-service";
+import { getDailyProgress } from "../../../api/services/goal-service";
 import { getDateKey } from "../../../utils/date-utils";
 import GoalsListItems from "./GoalsListItems";
 import "./styles/LogDayDialog.css";
@@ -23,15 +24,11 @@ const LogDayDialog = ({ open, onClose, onSave }) => {
   const [completedGoalIds, setCompletedGoalIds] = useState([]);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [lastLoadedDateKey, setLastLoadedDateKey] = useState(null);
 
-  // Fetch current goals when dialog opens
-  useEffect(() => {
-    if (open && user?.uid) {
-      fetchGoals();
-    }
-  }, [open, user?.uid]);
+  const fetchGoals = useCallback(async () => {
+    if (!user?.uid) return;
 
-  const fetchGoals = async () => {
     setLoading(true);
     try {
       const { goals: fetchedGoals, error } = await getCurrentGoals(user.uid);
@@ -52,7 +49,70 @@ const LogDayDialog = ({ open, onClose, onSave }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user?.uid]);
+
+  // Load progress for a specific date
+  const loadProgressForDate = useCallback(
+    async (date) => {
+      if (!user?.uid || !date) return;
+
+      const dateKey = getDateKey(date.toDate());
+
+      // Don't reload if it's the same date
+      if (dateKey === lastLoadedDateKey) {
+        return;
+      }
+
+      try {
+        const { completedIds, error } = await getDailyProgress(
+          user.uid,
+          dateKey
+        );
+
+        if (error) {
+          console.error("Error fetching daily progress:", error);
+          return;
+        }
+
+        // Update goals state to mark matching goals as completed
+        setGoals((prevGoals) => {
+          const currentGoalIds = new Set(prevGoals.map((g) => g.id));
+          const matchingCompletedIds = completedIds.filter((id) =>
+            currentGoalIds.has(id)
+          );
+
+          // Update completed goal IDs to only include those that exist in current goals
+          setCompletedGoalIds(matchingCompletedIds);
+
+          return prevGoals.map((goal) => ({
+            ...goal,
+            completed: matchingCompletedIds.includes(goal.id),
+          }));
+        });
+
+        setLastLoadedDateKey(dateKey);
+      } catch (error) {
+        console.error("Error loading progress for date:", error);
+      }
+    },
+    [user?.uid, lastLoadedDateKey]
+  );
+
+  // Fetch current goals when dialog opens
+  useEffect(() => {
+    if (open && user?.uid) {
+      fetchGoals();
+      // Reset last loaded date when dialog opens
+      setLastLoadedDateKey(null);
+    }
+  }, [open, user?.uid, fetchGoals]);
+
+  // Load progress when goals are loaded and date is available
+  useEffect(() => {
+    if (open && user?.uid && goals.length > 0 && selectedDate) {
+      loadProgressForDate(selectedDate);
+    }
+  }, [open, user?.uid, goals.length, selectedDate, loadProgressForDate]);
 
   const handleDateChange = (newDate) => {
     setSelectedDate(newDate);
@@ -60,6 +120,7 @@ const LogDayDialog = ({ open, onClose, onSave }) => {
     setCompletedGoalIds([]);
     // Update goals to reflect reset
     setGoals((prev) => prev.map((goal) => ({ ...goal, completed: false })));
+    // Progress will be loaded by the useEffect that watches selectedDate
   };
 
   const handleToggleGoal = (goalId) => {
@@ -113,6 +174,7 @@ const LogDayDialog = ({ open, onClose, onSave }) => {
     setSelectedDate(dayjs());
     setCompletedGoalIds([]);
     setGoals([]);
+    setLastLoadedDateKey(null);
     onClose();
   };
 
