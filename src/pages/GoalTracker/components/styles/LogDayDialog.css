@@ -47,8 +47,7 @@
 
 .log-day-goals-container {
   border: 1px solid #ccc;
-  max-height: 300px;
-  overflow-y: auto;
+  overflow: hidden;
 }
 
 .log-day-goals-container ul {
@@ -124,14 +123,36 @@
   background-color: #eee;
 }
 
+/* Calendar popup styling to match main calendar */
+/* Target the DatePicker popup calendar - rendered in portal */
+.MuiPickersPopper-paper .MuiButtonBase-root,
+.MuiPickersPopper-paper .MuiTypography-root .Mui-selected {
+  color: black !important;
+}
+
+.MuiPickersPopper-paper .MuiPickersCalendarHeader-label,
+.MuiPickersPopper-paper .MuiButtonBase-root {
+  font-family: "Montserrat" !important;
+}
+
+.MuiPickersPopper-paper .Mui-selected {
+  background-color: lightgrey !important;
+}
+
+/* Hover effect for dates - lighter gray than selected state */
+.MuiPickersPopper-paper .MuiButtonBase-root:hover:not(.Mui-selected) {
+  background-color: #e8e8e8 !important;
+}
+
+/* Future dates (disabled) - light grey color */
+.MuiPickersPopper-paper .MuiButtonBase-root.Mui-disabled {
+  color: grey !important;
+}
+
 /* Mobile Responsive */
 @media (max-width: 768px) {
   .log-day-dialog-content {
     gap: 20px;
-  }
-
-  .log-day-goals-container {
-    max-height: 250px;
   }
 
   .log-day-goals-container li {
