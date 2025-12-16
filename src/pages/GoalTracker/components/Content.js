@@ -49,7 +49,7 @@ function Content() {
               title="Log any day"
             >
               <AddIcon width={20} height={20} />
-              <span className="goal-list-header-btn-text">Log a Day</span>
+              <span className="goal-list-header-btn-text">Log any day</span>
             </button>
           </div>
           <GoalList onGoalsChange={onGoalsChange} />
